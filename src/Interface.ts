@@ -8,4 +8,6 @@ export interface Theme {
 export interface Label {
   label?: string;
   placeholder?: string;
+  icon?: any;
+  type?: string;
 }

@@ -6,6 +6,9 @@ type ColumnProps = {
   sizeMd?: number;
   sizeLg?: number;
   sizeXl?: number;
+  flex?: string;
+  flexDirection?: string;
+  marginTop?: number;
 };
 
 export const BodyWrapper = styled.div`
@@ -16,9 +19,6 @@ export const BodyWrapper = styled.div`
 
 export const FormWrapper = styled.div`
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const Headers = styled.div`
@@ -35,19 +35,19 @@ export const Headers = styled.div`
 `;
 
 export const Columns = styled.div`
-  display: flex;
-  height: 80%;
-  width: 80%;
+  height: 100%;
+  width: 100%;
 `;
 
 export const Column = styled.div<ColumnProps>`
   flex: ${({ size }) => size};
-  height: 50px;
+  display: ${({ flex }) => flex};
+  flex-direction: ${({ flexDirection }) => flexDirection};
+  margin-top: ${({ marginTop }) => marginTop + `px`};
 `;
 
 export const InputLabel = styled.span`
   color: red;
-  display: block;
   font-size: 14px;
   margin-bottom: 5px;
 `;
@@ -58,19 +58,62 @@ export const Input = styled.input`
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  outline: none;
+  border: none;
+  background-color: transparent;
 `;
 
-export const DivForNameInputs = styled.div`
-  border: 2px solid green;
+export const InputContainer = styled.div`
+  width: 90%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  display: flex;
+  align-items: center;
+`;
+
+export const InputDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Icon = styled.div`
+  display: flex;
+  border: 3px dotted re;
+`;
+
+export const DateInput = styled.input.attrs({
+  type: "date",
+})`
+  width: 90%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+
+  &::-webkit-calendar-picker-indicator {
+    visibility: hidden;
+  }
+`;
+
+export const AddressDiv = styled.div`
   display: flex;
 `;
 
-export const DivForFirstNameInput = styled.div`
-  border: 2px solid violet;
-  /* display: flex; */
-`;
-
-export const DivForLastNameInput = styled.div`
-  border: 2px solid violet;
-  /* display: flex; */
+export const Select = styled.select`
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  background-color: transparent;
+  height: 137%;
 `;

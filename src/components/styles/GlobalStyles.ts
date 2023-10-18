@@ -13,7 +13,7 @@ export const GlobalStyles = createGlobalStyle<GlobalProps>`
   }
 
   body {
-    /* background: ${({ theme }) => theme.colors.body}; */
+    background: ${({ theme }) => theme.colors.body};
     color: hsl(192, 100%, 9%);
     font-family: 'Young Serif', serif;
     font-size: 1.15em;

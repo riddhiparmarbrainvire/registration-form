@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { GlobalStyles } from "./components/styles/GlobalStyles";
 import { ThemeProvider } from "styled-components";
 import {
@@ -7,7 +7,10 @@ import {
   Column,
   Columns,
   FormWrapper,
+  CheckBoxContainer,
   InputDiv,
+  InputLabel,
+  RegisterButton,
 } from "./components/styles/RegistrationStyles";
 import Header from "./components/Header";
 import { MdEmail } from "react-icons/md";
@@ -15,11 +18,9 @@ import { BsFillTelephoneFill } from "react-icons/bs";
 import { SlCalender } from "react-icons/sl";
 import { ImLocation } from "react-icons/im";
 import FormInput from "./components/FormInput";
-// import ReactSelect from "react-select";
 import FormDropdown from "./components/FormDropdown";
-
-// console.log(State.getAllStates());
-// console.log(City.getAllCities(), "cityyyy");
+import FormRadio from "./components/FormRadio";
+import FormCheckbox from "./components/FormCheckbox";
 
 const theme = {
   colors: {
@@ -47,7 +48,7 @@ const App: React.FC = () => {
                   />
                 </Column>
                 <Column size={6}>
-                  <FormInput placeholder="Last Name" type="text" />
+                  <FormInput label="" placeholder="Last Name" type="text" />
                 </Column>
               </InputDiv>
 
@@ -118,6 +119,18 @@ const App: React.FC = () => {
                 />
               </Column>
             </Columns>
+            <InputLabel>Where did you hear about us?*</InputLabel>
+            <FormRadio label="A fried or colleague" type="checkbox" />
+            <FormRadio label="Google" type="checkbox" />
+            <FormRadio label="Article News" type="checkbox" />
+            <FormRadio label="Blog Posts" type="checkbox" />
+            <FormRadio label="Others" type="checkbox" />
+
+            <CheckBoxContainer>
+              <FormCheckbox />
+            </CheckBoxContainer>
+
+            <RegisterButton>Submit</RegisterButton>
           </FormWrapper>
         </BodyWrapper>
       </>

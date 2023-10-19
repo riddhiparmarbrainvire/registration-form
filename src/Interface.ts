@@ -10,4 +10,7 @@ export interface Label {
   placeholder?: string;
   icon?: any;
   type?: string;
+  name?: string;
+  selectedLabel?: string;
+  setSelectedLabel?: (data: string) => void | undefined;
 }

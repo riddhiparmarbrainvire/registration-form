@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
 
 type ColumnProps = {
   size?: number;
@@ -9,6 +10,7 @@ type ColumnProps = {
   flex?: string;
   flexDirection?: string;
   marginTop?: number;
+  marginLeft?: number;
 };
 
 export const BodyWrapper = styled.div`
@@ -45,6 +47,7 @@ export const Column = styled.div<ColumnProps>`
   display: ${({ flex }) => flex};
   flex-direction: ${({ flexDirection }) => flexDirection};
   margin-top: ${({ marginTop }) => marginTop + `px`};
+  margin-left: ${({ marginLeft }) => marginLeft + `px`};
 `;
 
 export const InputLabel = styled.span`
@@ -53,7 +56,8 @@ export const InputLabel = styled.span`
   margin-bottom: 5px;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<ColumnProps>`
+  margin-top: ${({ marginTop }) => marginTop + `px`};
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -86,25 +90,19 @@ export const Icon = styled.div`
   pointer-events: none;
 `;
 
-export const DateInput = styled.input.attrs({
-  type: "date",
-})`
-  padding: 8px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  outline: none;
-  display: flex;
-  align-items: center;
-  background-color: transparent;
+export const DateInput = styled(DatePicker)`
   border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #333;
+  outline: none;
+  background-color: transparent;
 
-  &::-webkit-calendar-picker-indicator {
-    /* visibility: hidden; */
-    opacity: 0;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
   }
 `;
-
 export const AddressDiv = styled.div`
   display: flex;
 `;
@@ -117,7 +115,7 @@ export const Select = styled.select`
   outline: none;
   background-color: transparent;
   height: 137%;
-  width: 30%;
+  width: 32%;
 `;
 
 export const RadioWrapper = styled.div`
@@ -137,12 +135,16 @@ export const RadioLabel = styled.label`
 `;
 
 export const RadioInput = styled.input`
+  appearance: none;
   width: 20px;
   height: 20px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  outline: none;
+  cursor: pointer;
 
-  &:after {
-    width: 20px;
-    height: 20px;
+  &:checked {
+    background-color: #000;
   }
 `;
 
@@ -189,7 +191,7 @@ export const RegisterButton = styled.button`
   cursor: pointer;
   display: inline-flex;
   font-size: 16px;
-    justify-content: center;
+  justify-content: center;
   line-height: 1.25;
   margin-right: 10px;
   text-decoration: none;
@@ -216,4 +218,8 @@ export const RegisterButton = styled.button`
     color: rgba(0, 0, 0, 0.65);
     transform: translateY(0);
   }
+`;
+
+export const DropdownWrapper = styled.div`
+  margin-top: 12px;
 `;

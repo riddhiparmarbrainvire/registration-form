@@ -15,7 +15,6 @@ const FormDropdown: React.FC = () => {
 
   const citiesList: any =
     state && City.getAllCities().filter((city) => city.stateCode === state);
-  console.log(citiesList, "citiesList");
 
   return (
     <div>

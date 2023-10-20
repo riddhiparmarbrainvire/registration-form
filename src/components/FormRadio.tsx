@@ -1,56 +1,43 @@
-import React, { useEffect, useRef, useState } from "react";
+// @ts-ignore
+import React, { useState } from "react";
 import {
   RadioInput,
   RadioLabel,
   RadioWrapper,
 } from "./styles/RegistrationStyles";
-import { Label } from "../Interface";
-import FormInput from "./FormInput";
 
-const FormRadio = ({ label, type }: Label) => {
-  const [showInput, setShowInput] = useState("");
+interface Label {
+  label?: string;
+  placeholder?: string;
+  icon?: any;
+  type?: string;
+  name?: string;
+  selectedRadio: string;
+  setSelectedRadio: (data: string) => void | string;
+}
 
-  //   const inputRef = useRef<HTMLInputElement>(null);
-  //   useEffect(() => {
-  //     inputRef.current.focus();
-  //   }, []);
-
-  // const handleRadioClick = () => {
-  //   console.log("Radio button clicked");
-
-  //   if (label === "Others") {
-  //     setShowInput(true);
-  //   } else {
-  //     setShowInput(false);
-  //   }
-
-  // };
-
-  const handleRadioClick = () => {
-    // setShowInput((prevShowInput) => !prevShowInput);
+const FormRadio = ({ label, type, selectedRadio, setSelectedRadio }: Label) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (selectedRadio) {
+      setSelectedRadio("");
+    } else {
+      setSelectedRadio(e.target.value);
+    }
   };
 
   return (
     <div>
       <RadioWrapper>
         <RadioInput
+          value={label}
           type={type}
           id="radio"
           name="radio"
-          onClick={handleRadioClick}
-          // checked={showInput}
+          onChange={handleChange}
+          checked={selectedRadio === label}
         />
         <RadioLabel htmlFor="radio">{label}</RadioLabel>
       </RadioWrapper>
-      {showInput && label === "Others" ? (
-        <FormInput
-          type="text"
-          placeholder="Please specify the reason"
-          //   ref={inputRef}
-        />
-      ) : (
-        ""
-      )}
     </div>
   );
 };

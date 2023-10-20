@@ -1,16 +1,26 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import {
-  DateInput,
   Icon,
   Input,
   InputContainer,
   InputLabel,
   RadioLabel,
+  DateInput,
 } from "./styles/RegistrationStyles";
-import { Label } from "../Interface";
+import "react-datepicker/dist/react-datepicker.css";
+
+interface Label {
+  label?: string;
+  placeholder?: string;
+  icon?: any;
+  type?: string;
+  name?: string;
+  selectedRadio?: string;
+  setSelectedRadio: (data: string) => void | string;
+}
 
 const FormInput = ({ label, placeholder, icon, type }: Label) => {
-  const inputRef = useRef(null);
+  const [startDate, setStartDate] = useState(new Date());
 
   return (
     <>
@@ -19,7 +29,10 @@ const FormInput = ({ label, placeholder, icon, type }: Label) => {
         {type === "date" ? (
           <>
             <Icon as={icon} />
-            <DateInput placeholder={placeholder} type={type} ref={inputRef} />
+            <DateInput
+              selected={startDate}
+              onChange={(date: any) => setStartDate(date)}
+            />
           </>
         ) : (
           <>

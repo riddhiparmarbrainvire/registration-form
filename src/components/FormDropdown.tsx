@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Country, State, City } from "country-state-city";
-import { Select } from "./styles/RegistrationStyles";
+import { FormErrorMessage, Select } from "./styles/RegistrationStyles";
 
-const FormDropdown: React.FC = () => {
+const FormDropdown = (formErrors: any) => {
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
@@ -17,7 +17,7 @@ const FormDropdown: React.FC = () => {
     state && City.getAllCities().filter((city) => city.stateCode === state);
 
   return (
-    <div>
+    <>
       <Select value={country} onChange={(e) => setCountry(e.target.value)}>
         <option value="">Select Country</option>
         {countriesList?.map((countryObject, i) => (
@@ -26,6 +26,12 @@ const FormDropdown: React.FC = () => {
           </option>
         ))}
       </Select>
+
+      {formErrors.formErrors.selectCountry && (
+        <FormErrorMessage>
+          {formErrors.formErrors.selectCountry}
+        </FormErrorMessage>
+      )}
 
       {statesList.length ? (
         <Select value={state} onChange={(e) => setState(e.target.value)}>
@@ -52,7 +58,7 @@ const FormDropdown: React.FC = () => {
           <option value="">Please select a state first</option>
         </Select>
       )}
-    </div>
+    </>
   );
 };
 

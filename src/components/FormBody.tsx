@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
 import {
   AddressDiv,
-  CheckBoxContainer,
   Column,
   Columns,
   DropdownWrapper,
+  FormErrorMessage,
   InputDiv,
   InputLabel,
   RegisterButton,
@@ -20,110 +20,135 @@ import FormCheckbox from "./FormCheckbox";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 interface FormValues {
-  fName: string;
-  lName: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  phone: string;
   address: string;
-  password: string;
+  phone: string;
+  date: string;
+  selectCountry: string;
+  tncCheckbox: string;
+  radioBtn: string;
 }
 
 const FormBody = () => {
   const [selectedRadio, setSelectedRadio] = useState("");
 
-  const [values, setValues] = useState<FormValues>({
-    fName: "",
-    lName: "",
+  const [formValues, setFormValues] = useState<FormValues>({
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
-    password: "",
     address: "",
+    phone: "",
+    date: "",
+    selectCountry: "",
+    tncCheckbox: "",
+    radioBtn: "",
   });
 
-  const [errors, setErrors] = useState<FormValues>({
-    fName: "",
-    lName: "",
+  const [formErrors, setFormErrors] = useState<FormValues>({
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
     address: "",
-    password: "",
+    phone: "",
+    date: "",
+    selectCountry: "",
+    tncCheckbox: "",
+    radioBtn: "",
   });
-
-  const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
+    setFormValues({
+      ...formValues,
       [name]: value,
     });
-
-    const filled =
-      values.fName &&
-      values.lName &&
-      values.email &&
-      values.phone &&
-      values.password;
-
-    setSubmitDisabled(!filled);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("form submitted");
+  useEffect(() => {
+    const handleChange = (
+      e: React.ChangeEvent<HTMLInputElement>,
+      key: string
+    ) => {
+      setFormValues((prev) => ({
+        ...prev,
+        [e.target.name]: e?.target?.value,
+      }));
+    };
+  }, [formValues]);
+
+  const validateForm = (formValues: FormValues) => {
+    const errors: FormValues = {
+      firstName: "",
+      lastName: "",
+      email: "",
+      address: "",
+      phone: "",
+      date: "",
+      selectCountry: "",
+      tncCheckbox: "",
+      radioBtn: "",
+    };
+
+    if (!formValues.firstName) {
+      errors.firstName = "First Name is required";
+    }
+
+    if (!formValues.lastName) {
+      errors.lastName = "Last Name is required";
+    }
+
+    if (!formValues.address) {
+      errors.address = "Address is required";
+    }
+
+    if (!formValues.date) {
+      errors.date = "Please select a Date";
+    }
+
+    if (!formValues.tncCheckbox) {
+      errors.tncCheckbox = "Please select the checkbox";
+    }
+
+    if (!formValues.radioBtn) {
+      errors.radioBtn = "Please select the radio";
+    }
+
+    if (!formValues.selectCountry) {
+      errors.selectCountry = "Please select Country";
+    }
+
+    if (!formValues.email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
+      errors.email = "Email is invalid";
+    }
+
+    if (!formValues.phone) {
+      errors.phone = "Phone is required";
+    } else if (!/^\d+$/.test(formValues.phone)) {
+      errors.phone = "Phone number must contain only numbers";
+    } else if (formValues.phone.length !== 10) {
+      errors.phone = "The length of the phone number should be 10";
+    }
+
+    return errors;
+  };
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    // let formErrors = validateForm(values);
-    // setErrors(formErrors);
+    let formErrors = validateForm(formValues);
+    setFormErrors(formErrors);
 
-    // console.log(formErrors, "formErrors");
-
-    // if (Object.values(formErrors).every((value) => value === "")) {
-    //   toast.success("Form Submitted Successfully");
-    // }
+    if (Object.values(formErrors).every((value) => value === "")) {
+      toast.success("Form Submitted Successfully");
+    }
   };
-
-  // const validateForm = (values: FormValues) => {
-  //   const errors: FormValues = {
-  //     fName: "",
-  //     lName: "",
-  //     email: "",
-  //     phone: "",
-  //     password: "",
-  //     address: "",
-  //   };
-
-  //   if (!values.fName) {
-  //     errors.fName = "Name is required";
-  //   }
-
-  //   if (!values.email) {
-  //     errors.email = "Email is required";
-  //   } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-  //     errors.email = "Email is invalid";
-  //   }
-
-  //   if (!values.phone) {
-  //     errors.phone = "Phone is required";
-  //   } else if (!/^\d+$/.test(values.phone)) {
-  //     errors.phone = "Phone number must contain only numbers";
-  //   } else if (values.phone.length !== 10) {
-  //     errors.phone = "The length of the phone number should be 10";
-  //   }
-
-  //   const passwordRegex =
-  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-
-  //   if (!values.password.match(passwordRegex)) {
-  //     errors.password =
-  //       "Password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character";
-  //   }
-
-  //   return errors;
-  // };
 
   return (
     <>
-      {/* margin-left: 35px; */}
       <form onSubmit={handleSubmit}>
         <Columns>
           <InputDiv>
@@ -132,15 +157,26 @@ const FormBody = () => {
                 label="Name*"
                 placeholder="First Name"
                 type="text"
+                name="firstName"
+                value={formValues.firstName}
                 setSelectedRadio={setSelectedRadio}
+                handleChange={handleChange}
               />
+              {formErrors.firstName && (
+                <FormErrorMessage>{formErrors.firstName}</FormErrorMessage>
+              )}
             </Column>
             <Column size={6} marginTop={20} marginLeft={30}>
               <FormInput
                 placeholder="Last Name"
+                name="lastName"
                 type="text"
                 setSelectedRadio={setSelectedRadio}
+                handleChange={handleChange}
               />
+              {formErrors.lastName && (
+                <FormErrorMessage>{formErrors.lastName}</FormErrorMessage>
+              )}
             </Column>
           </InputDiv>
 
@@ -153,10 +189,14 @@ const FormBody = () => {
             <FormInput
               label="Email*"
               placeholder="Email"
+              name="email"
               icon={MdEmail}
               type="text"
               setSelectedRadio={setSelectedRadio}
             />
+            {formErrors.email && (
+              <FormErrorMessage>{formErrors.email}</FormErrorMessage>
+            )}
           </Column>
 
           <Column
@@ -168,10 +208,14 @@ const FormBody = () => {
             <FormInput
               label="Telephone*"
               placeholder="Phone"
+              name="phone"
               icon={BsFillTelephoneFill}
               type="text"
               setSelectedRadio={setSelectedRadio}
             />
+            {formErrors.phone && (
+              <FormErrorMessage>{formErrors.phone}</FormErrorMessage>
+            )}
           </Column>
 
           <Column
@@ -183,20 +227,19 @@ const FormBody = () => {
             <FormInput
               label="Address*"
               placeholder="Address"
+              name="address"
               icon={ImLocation}
               type="text"
               setSelectedRadio={setSelectedRadio}
             />
+            {formErrors.address && (
+              <FormErrorMessage>{formErrors.address}</FormErrorMessage>
+            )}
           </Column>
 
           <AddressDiv>
-            <Column
-              size={3}
-              flex={"flex"}
-              flexDirection={"column"}
-              marginTop={30}
-            >
-              <FormDropdown />
+            <Column size={12} marginTop={30}>
+              <FormDropdown formErrors={formErrors} />
             </Column>
           </AddressDiv>
 
@@ -208,11 +251,14 @@ const FormBody = () => {
           >
             <FormInput
               label="Date of birth*"
-              // placeholder="DOB"
               icon={SlCalender}
+              name="dob"
               type="date"
               setSelectedRadio={setSelectedRadio}
             />
+            {formErrors.date && (
+              <FormErrorMessage>{formErrors.date}</FormErrorMessage>
+            )}
           </Column>
         </Columns>
 
@@ -223,30 +269,35 @@ const FormBody = () => {
             type="checkbox"
             selectedRadio={selectedRadio}
             setSelectedRadio={setSelectedRadio}
+            formErrors={formErrors}
           />
           <FormRadio
             label="Google"
             type="checkbox"
             selectedRadio={selectedRadio}
             setSelectedRadio={setSelectedRadio}
+            formErrors={formErrors}
           />
           <FormRadio
             label="Article News"
             type="checkbox"
             selectedRadio={selectedRadio}
             setSelectedRadio={setSelectedRadio}
+            formErrors={formErrors}
           />
           <FormRadio
             label="Blog Posts"
             type="checkbox"
             selectedRadio={selectedRadio}
             setSelectedRadio={setSelectedRadio}
+            formErrors={formErrors}
           />
           <FormRadio
             label="Others"
             type="checkbox"
             selectedRadio={selectedRadio}
             setSelectedRadio={setSelectedRadio}
+            formErrors={formErrors}
           />
         </DropdownWrapper>
 
@@ -257,9 +308,8 @@ const FormBody = () => {
             setSelectedRadio={setSelectedRadio}
           />
         )}
-        <CheckBoxContainer>
-          <FormCheckbox />
-        </CheckBoxContainer>
+
+        <FormCheckbox formErrors={formErrors} />
         <RegisterButton type="submit">Submit</RegisterButton>
         <ToastContainer />
       </form>

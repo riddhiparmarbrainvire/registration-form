@@ -51,8 +51,9 @@ export const Column = styled.div<ColumnProps>`
 `;
 
 export const InputLabel = styled.span`
-  color: red;
-  font-size: 14px;
+  color: #313131;
+  font-weight: bold;
+  font-size: 16px;
   margin-bottom: 5px;
 `;
 
@@ -103,6 +104,7 @@ export const DateInput = styled(DatePicker)`
     border-color: #007bff;
   }
 `;
+
 export const AddressDiv = styled.div`
   display: flex;
 `;
@@ -183,7 +185,7 @@ export const TermsLink = styled.a`
 export const RegisterButton = styled.button`
   align-items: center;
   background-color: #313131;
-  /* background: ${(props) => (props.disabled ? "grey" : "blue")}; */
+  /* background: ${(props) => (props.disabled ? "grey" : "#313131")}; */
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
   box-sizing: border-box;
@@ -222,4 +224,10 @@ export const RegisterButton = styled.button`
 
 export const DropdownWrapper = styled.div`
   margin-top: 12px;
+`;
+
+export const FormErrorMessage = styled.p`
+  color: red;
+  font-size: 13px;
+  margin: 0px;
 `;

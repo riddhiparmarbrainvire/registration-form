@@ -1,6 +1,7 @@
 // @ts-ignore
-import React, { useState } from "react";
+import React from "react";
 import {
+  FormErrorMessage,
   RadioInput,
   RadioLabel,
   RadioWrapper,
@@ -14,9 +15,16 @@ interface Label {
   name?: string;
   selectedRadio: string;
   setSelectedRadio: (data: string) => void | string;
+  formErrors: any;
 }
 
-const FormRadio = ({ label, type, selectedRadio, setSelectedRadio }: Label) => {
+const FormRadio = ({
+  label,
+  type,
+  selectedRadio,
+  setSelectedRadio,
+  formErrors,
+}: Label) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (selectedRadio) {
       setSelectedRadio("");
@@ -24,7 +32,7 @@ const FormRadio = ({ label, type, selectedRadio, setSelectedRadio }: Label) => {
       setSelectedRadio(e.target.value);
     }
   };
-
+  console.log(formErrors, "formErrors");
   return (
     <div>
       <RadioWrapper>
@@ -38,6 +46,9 @@ const FormRadio = ({ label, type, selectedRadio, setSelectedRadio }: Label) => {
         />
         <RadioLabel htmlFor="radio">{label}</RadioLabel>
       </RadioWrapper>
+      {!selectedRadio && (
+        <FormErrorMessage>{formErrors?.radioBtn}</FormErrorMessage>
+      )}
     </div>
   );
 };

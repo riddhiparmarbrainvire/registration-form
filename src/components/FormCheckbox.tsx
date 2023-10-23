@@ -4,9 +4,11 @@ import {
   TermsText,
   CheckBoxWrapper,
   TermsLink,
+  FormErrorMessage,
+  CheckBoxContainer,
 } from "./styles/RegistrationStyles";
 
-const FormCheckbox: React.FC = () => {
+const FormCheckbox = (formErrors: any) => {
   const [agreed, setAgreed] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -22,15 +24,28 @@ const FormCheckbox: React.FC = () => {
   };
 
   return (
-    <CheckBoxWrapper>
-      <TermsCheckbox type="checkbox" checked={agreed} onChange={handleChange} />
-      <TermsText>
-        I have read, understood, and accepted the PRIVACY POLICY for membership.
-        <TermsLink onClick={handleTermsAndConditions}>
-          Terms and Conditions
-        </TermsLink>
-      </TermsText>
-    </CheckBoxWrapper>
+    <>
+      <CheckBoxContainer>
+        <CheckBoxWrapper>
+          <TermsCheckbox
+            type="checkbox"
+            checked={agreed}
+            onChange={handleChange}
+          />
+          <TermsText>
+            I have read, understood, and accepted the PRIVACY POLICY for
+            membership.
+            <TermsLink onClick={handleTermsAndConditions}>
+              Terms and Conditions
+            </TermsLink>
+          </TermsText>
+        </CheckBoxWrapper>
+      </CheckBoxContainer>
+
+      {!agreed && (
+        <FormErrorMessage>{formErrors.formErrors.tncCheckbox}</FormErrorMessage>
+      )}
+    </>
   );
 };
 
